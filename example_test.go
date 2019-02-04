@@ -10,8 +10,9 @@ var script = []byte(`
 export {
 	truthy: func(src, dst, v) { return !!v },
 	falsy: func(src, dst, v) { return !v },
-	enter: func(src, dst, v) { printf("ENTER %v: %v\n", dst, v) },
-	leave: func(src, dst, v) { printf("LEAVE %v: %v\n", src, v) }
+	action: func(src, dst, v) { printf("%s -> %s: %v\n", src, dst, v) },
+	enter: func(src, dst, v) { printf("%v ->: %v\n", dst, v) },
+	leave: func(src, dst, v) { printf("-> %v: %v\n", src, v) }
 }
 `)
 
@@ -20,8 +21,8 @@ func Example() {
 		State("S", "enter", "leave").
 		State("T", "enter", "leave").
 		State("F", "enter", "leave").
-		Transition("S", "T", "truthy").
-		Transition("S", "F", "falsy").
+		Transition("S", "T", "truthy", "action").
+		Transition("S", "F", "falsy", "action").
 		Compile()
 	if err != nil {
 		panic(err)
@@ -41,12 +42,16 @@ func Example() {
 	}
 
 	// Output:
-	// LEAVE S: 1
-	// ENTER T: 1
-	// LEAVE S: NaN
-	// ENTER F: NaN
-	// LEAVE S: foobar
-	// ENTER T: foobar
-	// LEAVE S: []
-	// ENTER F: []
+	// -> S: 1
+	// S -> T: 1
+	// T ->: 1
+	// -> S: NaN
+	// S -> F: NaN
+	// F ->: NaN
+	// -> S: foobar
+	// S -> T: foobar
+	// T ->: foobar
+	// -> S: []
+	// S -> F: []
+	// F ->: []
 }
