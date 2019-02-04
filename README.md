@@ -1,6 +1,7 @@
 # go-fsm
 
 [![GoDoc](https://godoc.org/github.com/d5/go-fsm?status.svg)](https://godoc.org/github.com/d5/go-fsm)
+[![Build Status](https://travis-ci.org/d5/go-fsm.svg?branch=master)](https://travis-ci.org/d5/go-fsm)
 
 A scriptable FSM implementation for Go using the [Tengo](https://github.com/d5/tengo) language.
 
