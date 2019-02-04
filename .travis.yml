@@ -4,6 +4,7 @@ go:
   - 1.9
 
 install:
+  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
   - go get -u golang.org/x/lint/golint
 
 script:
