@@ -34,6 +34,6 @@ func TestStateMachine_Run(t *testing.T) {
 		Transition("s1", "s2", "", "err1"). // error returned
 		Compile()
 	assert.NoError(t, err)
-	out, err = machine.Run("s1", 123)
+	_, err = machine.Run("s1", 123)
 	assert.Error(t, err)
 }
