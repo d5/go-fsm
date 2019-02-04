@@ -20,9 +20,12 @@ export {
 	is_eol: func(src, dst, v) {
 		return len(v) == 0  
 	},
-	// prints out transition info and cut the first character
+	// prints out transition info
+	print_tx: func(src, dst, v) {
+		printf("%s -> %s: %q\n", src, dst, v)
+	},
+	// cut the first character
 	enter: func(src, dst, v) {
-		printf("%s -> %s: %v\n", src, dst, v)
 		return v[1:]
 	},
 	enter_end: func(src, dst, v) {
@@ -42,18 +45,18 @@ func Example_decimals() {
 		State("F", "enter", "").       // fractional part
 		State("E", "enter_end", "").   // end
 		State("X", "enter_error", ""). // error
-		Transition("S", "E", "is_eol").
-		Transition("S", "N", "is_digit").
-		Transition("S", "X", "").
-		Transition("N", "E", "is_eol").
-		Transition("N", "N", "is_digit").
-		Transition("N", "P", "is_dot").
-		Transition("N", "X", "").
-		Transition("P", "F", "is_digit").
-		Transition("P", "X", "").
-		Transition("F", "E", "is_eol").
-		Transition("F", "F", "is_digit").
-		Transition("F", "X", "").
+		Transition("S", "E", "is_eol", "print_tx").
+		Transition("S", "N", "is_digit", "print_tx").
+		Transition("S", "X", "", "print_tx").
+		Transition("N", "E", "is_eol", "print_tx").
+		Transition("N", "N", "is_digit", "print_tx").
+		Transition("N", "P", "is_dot", "print_tx").
+		Transition("N", "X", "", "print_tx").
+		Transition("P", "F", "is_digit", "print_tx").
+		Transition("P", "X", "", "print_tx").
+		Transition("F", "E", "is_eol", "print_tx").
+		Transition("F", "F", "is_digit", "print_tx").
+		Transition("F", "X", "", "print_tx").
 		Compile()
 	if err != nil {
 		panic(err)
@@ -74,18 +77,20 @@ func Example_decimals() {
 	fmt.Println(res)
 
 	// Output:
-	// S -> N: 123.456
-	// N -> N: 23.456
-	// N -> N: 3.456
-	// N -> P: .456
-	// P -> F: 456
-	// F -> F: 56
-	// F -> F: 6
-	// "valid number"
-	// S -> N: 12.34.56
-	// N -> N: 2.34.56
-	// N -> P: .34.56
-	// P -> F: 34.56
-	// F -> F: 4.56
-	// "invalid number: .56"
+	// S -> N: "123.456"
+	// N -> N: "23.456"
+	// N -> N: "3.456"
+	// N -> P: ".456"
+	// P -> F: "456"
+	// F -> F: "56"
+	// F -> F: "6"
+	// F -> E: ""
+	// valid number
+	// S -> N: "12.34.56"
+	// N -> N: "2.34.56"
+	// N -> P: ".34.56"
+	// P -> F: "34.56"
+	// F -> F: "4.56"
+	// F -> X: ".56"
+	// invalid number: .56
 }

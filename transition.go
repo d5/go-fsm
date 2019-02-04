@@ -1,6 +1,7 @@
 package fsm
 
 type transition struct {
-	dst  string
-	cond string
+	dst       string
+	condition string
+	action    string
 }

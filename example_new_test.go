@@ -15,6 +15,6 @@ func ExampleNew() {
 		State("S", "enter", "leave").
 		State("T", "enter", "leave").
 		State("F", "enter", "leave").
-		Transition("S", "T", "truthy").
-		Transition("S", "F", "falsy")
+		Transition("S", "T", "truthy", "").
+		Transition("S", "F", "falsy", "")
 }
