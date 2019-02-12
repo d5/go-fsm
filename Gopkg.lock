@@ -2,7 +2,7 @@
 
 
 [[projects]]
-  digest = "1:ea048177d3be0ce8f383ddfcc846d412fa721a32740a25a8474c0a9542833791"
+  digest = "1:6144a14e7aa283c6bfe1f56cc44bec04d47ccbb6947cfe5e4ef1eb526fce9329"
   name = "github.com/d5/tengo"
   packages = [
     "assert",
@@ -18,8 +18,8 @@
     "script",
   ]
   pruneopts = "UT"
-  revision = "edfb76525848e1620579f44b34bc5e086950df06"
-  version = "v1.4.0"
+  revision = "cb1c8a405e2a7eb27011f3747a2916d2cc08cfe1"
+  version = "v1.8.4"
 
 [solve-meta]
   analyzer-name = "dep"
