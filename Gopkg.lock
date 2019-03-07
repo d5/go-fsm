@@ -2,24 +2,24 @@
 
 
 [[projects]]
-  digest = "1:6144a14e7aa283c6bfe1f56cc44bec04d47ccbb6947cfe5e4ef1eb526fce9329"
+  digest = "1:710f2bd52fec48ce6b597a4cd692049087b5e951ceb7b81a29849c0e67f9e233"
   name = "github.com/d5/tengo"
   packages = [
+    ".",
     "assert",
     "compiler",
     "compiler/ast",
     "compiler/parser",
     "compiler/scanner",
     "compiler/source",
-    "compiler/stdlib",
     "compiler/token",
     "objects",
     "runtime",
     "script",
   ]
   pruneopts = "UT"
-  revision = "cb1c8a405e2a7eb27011f3747a2916d2cc08cfe1"
-  version = "v1.8.4"
+  revision = "e93f6f63256a33d7babb51bc293c7ca16b70331a"
+  version = "v1.13.0"
 
 [solve-meta]
   analyzer-name = "dep"
