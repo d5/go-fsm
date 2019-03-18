@@ -6,6 +6,7 @@ import (
 
 	"github.com/d5/tengo/objects"
 	"github.com/d5/tengo/script"
+	"github.com/d5/tengo/stdlib"
 )
 
 // Builder represents a state machine builder that constructs and compiles the state machine.
@@ -119,7 +120,10 @@ func (b *Builder) validate() error {
 	// compile validation script
 	s := script.New(retrieveScript)
 	_ = s.Add("fn", "")
-	s.SetUserModuleLoader(func(_ string) ([]byte, error) { return b.userScript, nil })
+	importModules := stdlib.GetModules(stdlib.AllModuleNames()...)
+	delete(importModules, "os")
+	importModules["user"] = &objects.SourceModule{Src: b.userScript}
+	s.SetImports(importModules)
 	c, err := s.Compile()
 	if err != nil {
 		return fmt.Errorf("failed to compile script: %s", err.Error())
@@ -180,7 +184,10 @@ func (b *Builder) compile() (*StateMachine, error) {
 	_ = s.Add("dst", "")
 	_ = s.Add("fn", "")
 	_ = s.Add("v", nil)
-	s.SetUserModuleLoader(func(_ string) ([]byte, error) { return b.userScript, nil })
+	importModules := stdlib.GetModules(stdlib.AllModuleNames()...)
+	delete(importModules, "os")
+	importModules["user"] = &objects.SourceModule{Src: b.userScript}
+	s.SetImports(importModules)
 	compiled, err := s.Compile()
 	if err != nil {
 		return nil, fmt.Errorf("failed to compile script: %s", err.Error())

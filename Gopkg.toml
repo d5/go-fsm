@@ -4,4 +4,4 @@
 
 [[constraint]]
   name = "github.com/d5/tengo"
-  version = "^1.13.0"
+  version = "^1.17.0"

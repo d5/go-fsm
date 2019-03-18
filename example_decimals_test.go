@@ -7,6 +7,8 @@ import (
 )
 
 var decimalsScript = []byte(`
+fmt := import("fmt")
+
 export {
 	// test if the first character is a digit
 	is_digit: func(src, dst, v) {
@@ -22,7 +24,7 @@ export {
 	},
 	// prints out transition info
 	print_tx: func(src, dst, v) {
-		printf("%s -> %s: %q\n", src, dst, v)
+		fmt.printf("%s -> %s: %q\n", src, dst, v)
 	},
 	// cut the first character
 	enter: func(src, dst, v) {

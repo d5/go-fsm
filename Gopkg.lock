@@ -2,7 +2,7 @@
 
 
 [[projects]]
-  digest = "1:710f2bd52fec48ce6b597a4cd692049087b5e951ceb7b81a29849c0e67f9e233"
+  digest = "1:1bfba84c80d8612f36fb12843002b522e89b654fa2cf0c875f62f776b413d52d"
   name = "github.com/d5/tengo"
   packages = [
     ".",
@@ -16,10 +16,11 @@
     "objects",
     "runtime",
     "script",
+    "stdlib",
   ]
   pruneopts = "UT"
-  revision = "e93f6f63256a33d7babb51bc293c7ca16b70331a"
-  version = "v1.13.0"
+  revision = "61890b15cbd89f2335b7f69dc89f6005db9554e9"
+  version = "v1.17.0"
 
 [solve-meta]
   analyzer-name = "dep"
@@ -28,6 +29,7 @@
     "github.com/d5/tengo/assert",
     "github.com/d5/tengo/objects",
     "github.com/d5/tengo/script",
+    "github.com/d5/tengo/stdlib",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

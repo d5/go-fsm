@@ -7,12 +7,14 @@ import (
 )
 
 var script = []byte(`
+fmt := import("fmt")
+
 export {
 	truthy: func(src, dst, v) { return !!v },
 	falsy: func(src, dst, v) { return !v },
-	action: func(src, dst, v) { printf("%s -> %s: %v\n", src, dst, v) },
-	enter: func(src, dst, v) { printf("%v ->: %v\n", dst, v) },
-	leave: func(src, dst, v) { printf("-> %v: %v\n", src, v) }
+	action: func(src, dst, v) { fmt.printf("%s -> %s: %v\n", src, dst, v) },
+	enter: func(src, dst, v) { fmt.printf("%v ->: %v\n", dst, v) },
+	leave: func(src, dst, v) { fmt.printf("-> %v: %v\n", src, v) }
 }
 `)
 
