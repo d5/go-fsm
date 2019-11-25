@@ -1,7 +1,0 @@
-[prune]
-  go-tests = true
-  unused-packages = true
-
-[[constraint]]
-  name = "github.com/d5/tengo"
-  version = "^1.17.0"

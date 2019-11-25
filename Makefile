@@ -1,13 +1,4 @@
-dep:
-	dep ensure
-
-vet:
-	go vet ./...
-
-lint:
-	golint -set_exit_status ./...
-
-test: dep vet lint
+test:
 	go test -race -cover ./...
 
 fmt:
