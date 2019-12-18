@@ -10,7 +10,8 @@ package fsm
 // output
 //   out : output data (undefined: no output)
 //
-var invokeScript = []byte(`user := import("user"); out := user[fn](src, dst, immutable(v))`)
+var invokeScript = []byte(
+	`user := import("user"); out := user[fn](src, dst, immutable(v))`)
 
 // Internal script used to retrieve a function from the user script.
 //

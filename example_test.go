@@ -13,8 +13,8 @@ export {
 	truthy: func(src, dst, v) { return !!v },
 	falsy: func(src, dst, v) { return !v },
 	action: func(src, dst, v) { fmt.printf("%s -> %s: %v\n", src, dst, v) },
-	enter: func(src, dst, v) { fmt.printf("%v ->: %v\n", dst, v) },
-	leave: func(src, dst, v) { fmt.printf("-> %v: %v\n", src, v) }
+	enter: func(src, dst, v) { fmt.printf("%s ->: %v\n", dst, v) },
+	leave: func(src, dst, v) { fmt.printf("-> %s: %v\n", src, v) }
 }
 `)
 
@@ -50,9 +50,9 @@ func Example() {
 	// -> S: NaN
 	// S -> F: NaN
 	// F ->: NaN
-	// -> S: foobar
-	// S -> T: foobar
-	// T ->: foobar
+	// -> S: "foobar"
+	// S -> T: "foobar"
+	// T ->: "foobar"
 	// -> S: []
 	// S -> F: []
 	// F ->: []
