@@ -1,7 +1,7 @@
 # go-fsm
 
 [![GoDoc](https://godoc.org/github.com/d5/go-fsm?status.svg)](https://godoc.org/github.com/d5/go-fsm)
-[![Build Status](https://travis-ci.org/d5/go-fsm.svg?branch=master)](https://travis-ci.org/d5/go-fsm)
+[![CircleCI](https://circleci.com/gh/d5/go-fsm.svg?style=svg)](https://circleci.com/gh/d5/go-fsm)
 
 **A scriptable [FSM](https://en.wikipedia.org/wiki/Finite-state_machine) library for Go**
 
