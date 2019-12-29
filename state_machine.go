@@ -3,14 +3,13 @@ package fsm
 import (
 	"errors"
 
-	"github.com/d5/tengo/objects"
-	"github.com/d5/tengo/script"
+	"github.com/d5/tengo/v2"
 )
 
 // StateMachine represents a compiled state machine. Use Builder to
 // construct and compile StateMachine.
 type StateMachine struct {
-	invokeScript *script.Compiled
+	invokeScript *tengo.Compiled
 	entryFns     map[string]string
 	exitFns      map[string]string
 	transitions  map[string][]*transition
@@ -26,8 +25,8 @@ type StateMachine struct {
 func (m *StateMachine) Run(
 	src string,
 	in interface{},
-) (out *script.Variable, err error) {
-	value, err := script.NewVariable("", in)
+) (out *tengo.Variable, err error) {
+	value, err := tengo.NewVariable("", in)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +51,7 @@ func (m *StateMachine) Run(
 
 func (m *StateMachine) eval(
 	src string,
-	in *script.Variable,
+	in *tengo.Variable,
 ) (*transition, error) {
 	transitions, ok := m.transitions[src]
 	if !ok {
@@ -77,8 +76,8 @@ func (m *StateMachine) eval(
 
 func (m *StateMachine) doTransition(
 	src, dst, action string,
-	in *script.Variable,
-) (*script.Variable, error) {
+	in *tengo.Variable,
+) (*tengo.Variable, error) {
 	if exitFn := m.exitFns[src]; exitFn != "" {
 		out, err := m.invoke(src, dst, exitFn, in)
 		if err != nil {
@@ -113,11 +112,11 @@ func (m *StateMachine) doTransition(
 
 func (m *StateMachine) invoke(
 	src, dst, fn string,
-	in *script.Variable,
-) (out *script.Variable, err error) {
-	_ = m.invokeScript.Set("src", &objects.String{Value: src})
-	_ = m.invokeScript.Set("dst", &objects.String{Value: dst})
-	_ = m.invokeScript.Set("fn", &objects.String{Value: fn})
+	in *tengo.Variable,
+) (out *tengo.Variable, err error) {
+	_ = m.invokeScript.Set("src", &tengo.String{Value: src})
+	_ = m.invokeScript.Set("dst", &tengo.String{Value: dst})
+	_ = m.invokeScript.Set("fn", &tengo.String{Value: fn})
 	_ = m.invokeScript.Set("v", in.Object())
 	err = m.invokeScript.Run()
 	if err != nil {
@@ -125,7 +124,7 @@ func (m *StateMachine) invoke(
 	}
 
 	out = m.invokeScript.Get("out")
-	if out, isErr := out.Object().(*objects.Error); isErr {
+	if out, isErr := out.Object().(*tengo.Error); isErr {
 		return nil, errors.New(out.String())
 	}
 	return

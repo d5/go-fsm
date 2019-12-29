@@ -4,9 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/d5/tengo/objects"
-	"github.com/d5/tengo/script"
-	"github.com/d5/tengo/stdlib"
+	"github.com/d5/tengo/v2"
+	"github.com/d5/tengo/v2/stdlib"
 )
 
 // Builder represents a state machine builder that constructs and compiles
@@ -124,11 +123,11 @@ func (b *Builder) ValidateCompile() (*StateMachine, error) {
 
 func (b *Builder) validate() error {
 	// compile validation script
-	s := script.New(retrieveScript)
+	s := tengo.NewScript(retrieveScript)
 	_ = s.Add("fn", "")
 	importModules := stdlib.GetModuleMap(stdlib.AllModuleNames()...)
 	importModules.Remove("os")
-	importModules.Add("user", &objects.SourceModule{Src: b.userScript})
+	importModules.Add("user", &tengo.SourceModule{Src: b.userScript})
 	s.SetImports(importModules)
 	c, err := s.Compile()
 	if err != nil {
@@ -180,14 +179,14 @@ func (b *Builder) validate() error {
 
 func (b *Builder) compile() (*StateMachine, error) {
 	// compile state machine invoke script
-	s := script.New(invokeScript)
+	s := tengo.NewScript(invokeScript)
 	_ = s.Add("src", "")
 	_ = s.Add("dst", "")
 	_ = s.Add("fn", "")
 	_ = s.Add("v", nil)
 	importModules := stdlib.GetModuleMap(stdlib.AllModuleNames()...)
 	importModules.Remove("os")
-	importModules.Add("user", &objects.SourceModule{Src: b.userScript})
+	importModules.Add("user", &tengo.SourceModule{Src: b.userScript})
 	s.SetImports(importModules)
 	compiled, err := s.Compile()
 	if err != nil {
@@ -205,8 +204,8 @@ func (b *Builder) compile() (*StateMachine, error) {
 	}, nil
 }
 
-func validateFunc(c *script.Compiled, name string) error {
-	_ = c.Set("fn", &objects.String{Value: name})
+func validateFunc(c *tengo.Compiled, name string) error {
+	_ = c.Set("fn", &tengo.String{Value: name})
 	err := c.Run()
 	if err != nil {
 		return fmt.Errorf("script execution error: %s", err.Error())
@@ -217,21 +216,14 @@ func validateFunc(c *script.Compiled, name string) error {
 
 	}
 	switch out := out.Object().(type) {
-	case *objects.Undefined:
+	case *tengo.Undefined:
 		return fmt.Errorf("function '%s' not found", name)
-	case *objects.CompiledFunction:
+	case *tengo.CompiledFunction:
 		if out.NumParameters != 3 {
 			return fmt.Errorf(
 				"function '%s' wrong number of arguments: want 3 got %d",
 				name, out.NumParameters)
 		}
-	case *objects.Closure:
-		if out.Fn.NumParameters != 3 {
-			return fmt.Errorf(
-				"function '%s' wrong number of arguments: want 3 got %d",
-				name, out.Fn.NumParameters)
-		}
-	case objects.Callable:
 	default:
 		return fmt.Errorf("'%s' is not callable", name)
 	}
